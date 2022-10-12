@@ -1,34 +1,73 @@
-// TODO: Add the required header
+// Christian Alton Bonilla
+// CPSC 120-01
+// 2022-10-12
+// Alton77@csu.fullerton.edu
+// @alton7759
+//
+// Lab 05-03
+// Partners: @Jaylinmai
+//
+// we get to play blackjack
+//
 
+#include <array>
 #include <iostream>
 #include <string>
 #include <vector>
 
 int main(int argc, char* argv[]) {
   std::vector<std::string> arguments(argv, argv + argc);
+  std::array<std::string, 9> numbers = {"2", "3", "4", "5", "6",
+                                        "7", "8", "9", "10"};
+  std::array<std::string, 9> faces = {"K", "k",    "q",     "Q",   "J",
+                                      "j", "jack", "queen", "king"};
+  int allnums{0};
+  bool facespass{false};
+  bool numberspass{false};
+  bool apass{false};
+  bool skip{true};
+  for (const std::string& check : arguments) {
+    if (check == "A") {
+      apass = true;
+      if (allnums + 11 > 21) {
+        allnums += 1;
+      } else {
+        allnums += 11;
+      }
+    } else {
+      apass = false;
+    }
+    for (const std::string& numberc : numbers) {
+      if (check == numberc) {
+        allnums += std::stoi(numberc);
+        numberspass = true;
 
-  // TODO: Declare variables necessary to make your loop work.
+      } else {
+        numberspass = false;
+      }
+    }
+    for (const std::string& facec : faces) {
+      if (check == facec) {
+        allnums += 10;
+        facespass = true;
 
-  // TODO: Write a for-each loop that iterates through the command line
-  // arguments.
-  // The loop needs to skip over the command name, which is the first element
-  // of the arguments vector.
-  // For each card:
-  //   - A number card (2 through 10) counts as its value. So a 5 adds 5 to
-  //     the score.
-  //   - A face card (J, Q, K) counts as 10.
-  //   - An ace (A) counts as 1.
-  //   - If an argument is invalid (none of "2" through "10", "J", "Q", "K",
-  //     or "A": print the error message
-  //        error: unknown card '*ARGUMENT*'
-  //     and stop the program with a non-zero error code.
-  // Further, an ace may count as 11 if it increases the score, without making
-  // the score go over 21.
-
-  // TODO: If the score is 21 or less, print output of the form
-  // Score is *SCORE*
-  // Otherwise (score is greater than 21), print output of the form
-  // Score is *SCORE*, BUST
+      } else {
+        facespass = false;
+      }
+    }
+    if (skip) {
+      skip = false;
+    } else if (facespass || numberspass || apass) {
+    } else {
+      std::cout << "error: unknown card '" << check << "'\n";
+      return 0;
+    }
+  }
+  if (allnums > 21) {
+    std::cout << "Score is " << allnums << ", BUST\n";
+    return 0;
+  }
+  std::cout << "Score is " << allnums << "\n";
 
   return 0;
 }
