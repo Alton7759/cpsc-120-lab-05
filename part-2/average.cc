@@ -1,13 +1,13 @@
-// Christian Alton bonilla
+// Christian Alton Bonilla
 // CPSC 120-01
-// 2022-09-21
+// 2022-10-12
 // Alton77@csu.fullerton.edu
 // @alton7759
 //
-// Lab 01-01
-// Partners: @annavera38
+// Lab 05-02
+// Partners: @jaylinmai
 //
-// prints the change from fahrenheit to celsius
+// takes numbers and makes average
 //
 
 #include <iostream>
