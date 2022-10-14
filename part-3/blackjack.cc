@@ -10,64 +10,54 @@
 // we get to play blackjack
 //
 
-#include <array>
 #include <iostream>
 #include <string>
 #include <vector>
 
 int main(int argc, char* argv[]) {
   std::vector<std::string> arguments(argv, argv + argc);
-  std::array<std::string, 9> numbers = {"2", "3", "4", "5", "6",
-                                        "7", "8", "9", "10"};
-  std::array<std::string, 9> faces = {"K", "k",    "q",     "Q",   "J",
-                                      "j", "jack", "queen", "king"};
-  int allnums{0};
-  bool facespass{false};
-  bool numberspass{false};
-  bool apass{false};
-  bool skip{true};
-  for (const std::string& check : arguments) {
-    if (check == "A") {
-      apass = true;
-      if (allnums + 11 > 21) {
-        allnums += 1;
+  std::vector<std::string> numbers{
+      "2", "3", "4", "5", "6", "7", "8", "9", "10",
+  };
+  std::vector<std::string> faces{
+      "J",
+      "Q",
+      "K",
+  };
+  int score = 0;
+  int num_card_value = 0;
+  bool rcard{false};
+  for (int i = 1; i < arguments.size(); i++) {
+    if (arguments[i] == "A") {
+      if (score + 11 > 21) {
+        score += 1;
+        rcard = true;
       } else {
-        allnums += 11;
-      }
-    } else {
-      apass = false;
-    }
-    for (const std::string& numberc : numbers) {
-      if (check == numberc) {
-        allnums += std::stoi(numberc);
-        numberspass = true;
-
-      } else {
-        numberspass = false;
+        score += 11;
+        rcard = true;
       }
     }
-    for (const std::string& facec : faces) {
-      if (check == facec) {
-        allnums += 10;
-        facespass = true;
-
-      } else {
-        facespass = false;
+    for (const std::string& bruh2 : faces) {
+      if (arguments[i] == bruh2) {
+        score += 10;
+        rcard = true;
       }
     }
-    if (skip) {
-      skip = false;
-    } else if (facespass || numberspass || apass) {
-    } else {
-      std::cout << "error: unknown card '" << check << "'\n";
-      return 0;
+    for (const std::string& bruh : numbers) {
+      if (arguments[i] == bruh) {
+        num_card_value = stoi(bruh);
+        score += num_card_value;
+        rcard = true;
+      }
+    }
+    if (score > 21) {
+      std::cout << "Score is " << score << ", BUST \n";
+    }
+    if (!rcard) {
+      std::cout << "error: unknown card '" << arguments[i] << "'\n";
+      return 1;
     }
   }
-  if (allnums > 21) {
-    std::cout << "Score is " << allnums << ", BUST\n";
-    return 0;
-  }
-  std::cout << "Score is " << allnums << "\n";
-
+  std::cout << "Score is " << score << "\n";
   return 0;
 }
