@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
   int i{1};
   if (arguments.size() <= 1) {
     std::cout << "error: must supple at least one number\n";
-    return 0;
+    return 1;
   }
   bool skip{true};
   for (const std::string& num : arguments) {
